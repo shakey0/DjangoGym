@@ -1,0 +1,59 @@
+body { 
+    padding-top: 56px;
+}
+
+.test-class {
+    color: red;
+}
+
+.link-color-custom {
+    color: #ffffff;
+    transition: color 0.2s
+}
+
+.link-color-custom:hover {
+    color: rgb(191, 191, 191);
+}
+
+.link-blonde {
+    color: #f5f5bf;
+    transition: color 0.2s
+}
+
+.link-blonde:hover {
+    color: #ffffff;
+}
+
+.max-width-custom {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+@media (max-width: 767px) {
+    .max-width-custom {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
+.crop-image {
+    object-fit: cover;
+    width: 100%;
+    max-height: 300px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+@media (max-width: 920px) {
+    .crop-image {
+        max-height: 270px;
+    }
+}
+@media (max-width: 850px) {
+    .crop-image {
+        max-height: 250px;
+    }
+}
+@media (max-width: 767px) {
+    .crop-image {
+        max-height: 460px;
+    }
+}

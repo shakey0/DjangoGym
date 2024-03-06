@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'instructor.apps.InstructorConfig',
-    'class.apps.ClassConfig',
+    'classes.apps.ClassConfig',
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',
     'django.contrib.admin',

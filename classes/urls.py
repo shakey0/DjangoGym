@@ -2,7 +2,7 @@ from . import views
 from django.urls import path
 
 
-app_name = 'class'
+app_name = 'classes'
 urlpatterns = [
     path('', views.AllClasses.as_view(), name='classes'),
     path('sort/', views.sort_classes, name='sort_classes'),

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container-fluid max-width-custom sort-width-767px mb-5">
-    <form action="{% url 'class:sort_classes' %}" method="post">
+    <form action="{% url 'classes:sort_classes' %}" method="post">
         {% csrf_token %}
         <div class="d-flex align-items-center adj-430w" id="classes-title-div">
             <h1 class="mt-4 mb-4">Sort Classes</h1>

@@ -31,7 +31,7 @@ def sort_classes(request):
         if classes_to_update:
             with transaction.atomic():
                 Class.objects.bulk_update(classes_to_update, ['order'])
-        return redirect('class:classes')
+        return redirect('classes:classes')
     classes = Class.objects.all()
     context = {
         'classes': classes,

@@ -21,8 +21,8 @@
                 <h2 class="card-title mt-2 ms-3 me-3 border-bottom-after">{{ class.name }}</h2>
                 {% if user.is_staff %}
                     <div class="mt-2 mb-2 ms-3 me-3">
-                        <a href="" class="btn btn-primary me-1" style="height: 40px;">Update</a>
-                        <a href="" class="btn btn-danger" style="height: 40px;">Delete</a>
+                        <a href="{% url 'class:update_class' class.id %}" class="btn btn-primary me-1" style="height: 40px;">Update</a>
+                        <a href="{% url 'class:delete_class' class.id %}" class="btn btn-danger" style="height: 40px;">Delete</a>
                     </div>
                 {% endif %}
                 <div class="d-flex ms-3 me-3 gap-3">

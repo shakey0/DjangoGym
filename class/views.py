@@ -21,3 +21,29 @@ class AddClass(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_add'] = True
+        return context
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class UpdateClass(UpdateView):
+    model = Class
+    form_class = AddClassForm
+    template_name = 'add_class.html'
+    success_url = '/classes/'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_add'] = False
+        return context
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class DeleteClass(DeleteView):
+    model = Class
+    template_name = 'delete_class.html'
+    success_url = '/classes/'
+    # !!! Will be dependent on all associated sessions being deleted first

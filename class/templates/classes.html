@@ -7,7 +7,7 @@
             <h1 class="mt-4 mb-4">Our Classes</h1>
             <div class="ms-auto" id="classes-admin-main-buttons">
                 <a href="{% url 'class:add_class' %}" class="btn btn-primary" style="height: 40px;">Add Class</a>
-                <a href="" class="btn btn-dark ms-1" style="height: 40px;">Reorder</a>
+                <a href="{% url 'class:sort_classes' %}" class="btn btn-dark ms-1" style="height: 40px;">Reorder</a>
             </div>
         </div>
     {% else %}

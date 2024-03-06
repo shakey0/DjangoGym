@@ -1,14 +1,42 @@
+from django.shortcuts import render, redirect
 from .models import Class
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .forms import AddClassForm
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
+from django.db import transaction
 
 
 class AllClasses(ListView):
     model = Class
     template_name = 'classes.html'
     context_object_name = 'classes'
+    
+
+@staff_member_required
+def sort_classes(request):
+    if request.method == 'POST':
+        form_data = request.POST
+        class_ids = [item.split('_')[1] for item in form_data if item.startswith('class')]
+        classes_dict = {str(class_obj.pk): class_obj for class_obj in Class.objects.filter(pk__in=class_ids)}
+        classes_to_update = []
+        for item in form_data:
+            if item.startswith('class'):
+                class_id = item.split('_')[1]
+                new_order = str(int(form_data[item]) * 100)
+                if class_id in classes_dict:
+                    class_instance = classes_dict[class_id]
+                    class_instance.order = new_order
+                    classes_to_update.append(class_instance)
+        if classes_to_update:
+            with transaction.atomic():
+                Class.objects.bulk_update(classes_to_update, ['order'])
+        return redirect('class:classes')
+    classes = Class.objects.all()
+    context = {
+        'classes': classes,
+    }
+    return render(request, 'sort_classes.html', context)
 
 
 @method_decorator(staff_member_required, name='dispatch')

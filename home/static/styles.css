@@ -15,12 +15,25 @@ body {
     color: rgb(191, 191, 191);
 }
 
-.link-blonde {
-    color: #f5f5bf;
+.link-classes {
+    text-decoration: none;
+    color: #444444;
     transition: color 0.2s
 }
 
-.link-blonde:hover {
+.link-classes:hover {
+    text-decoration: underline;
+    color: #888888;
+}
+
+.link-footer {
+    text-decoration: none;
+    color: #eeeeee;
+    transition: color 0.2s
+}
+
+.link-footer:hover {
+    text-decoration: underline;
     color: #ffffff;
 }
 
@@ -55,5 +68,30 @@ body {
 @media (max-width: 767px) {
     .crop-image {
         max-height: 460px;
+    }
+}
+
+.border-bottom-after::after {
+    content: '';
+    display: block;
+    border-bottom: 1px solid rgb(191, 191, 191); /* Adjust the width and color as needed */
+    margin-top: 10px; /* Adjust the margin-top value as needed */
+}
+
+.staff-textarea-width, .staff-input-width {
+    width: 480px;
+}
+@media (max-width: 767px) {
+    .staff-textarea-width, .staff-input-width {
+        width: 100%;
+    }
+}
+
+@media (max-width: 430px) {
+    .adj-430w {
+        flex-direction: column;
+    }
+    .adjust-admin-main-buttons-vertical {
+        transform: translateY(-10px);
     }
 }

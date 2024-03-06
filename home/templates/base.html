@@ -11,10 +11,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand link-color-custom ms-1" href="#">DjangoGym</a>
+                <a class="navbar-brand link-color-custom ms-1" href="{% url 'home:index' %}">DjangoGym</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -29,7 +29,7 @@
                         </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link link link-color-custom" href="">Classes</a>
+                            <a class="nav-link link link-color-custom" href="{% url 'class:classes' %}">Classes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link link-color-custom" href="">Our Team</a>
@@ -53,27 +53,27 @@
         </nav>
         {% block content %}
         {% endblock %}
-        <footer class="bg-dark text-light py-4">
+        <footer class="bg-dark text-light py-4 mt-auto">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5">
                         <h5>About Us</h5>
-                        <p>At Django Gym, we're dedicated to empowering individuals through personalized training, diverse classes, and top-notch facilities. Join us to unleash your strength and achieve your fitness goals.</p>
+                        <p style="color: #eeeeee;">At Django Gym, we're dedicated to empowering individuals through personalized training, diverse classes, and top-notch facilities. Join us to unleash your strength and achieve your fitness goals.</p>
                     </div>
                     <div class="col-md-1"></div>
                     <div class="col-md-3">
                         <h5>Quick Links</h5>
                         <ul class="list-unstyled">
-                            <li><a class="link link-blonde text-decoration-none" href="#">Home</a></li>
-                            <li><a class="link link-blonde text-decoration-none" href="#">Classes</a></li>
-                            <li><a class="link link-blonde text-decoration-none" href="#">Membership</a></li>
-                            <li><a class="link link-blonde text-decoration-none" href="#">Trainers</a></li>
-                            <li><a class="link link-blonde text-decoration-none" href="#">Contact</a></li>
+                            <li><a class="link link-footer" href="#">Home</a></li>
+                            <li><a class="link link-footer" href="#">Classes</a></li>
+                            <li><a class="link link-footer" href="#">Membership</a></li>
+                            <li><a class="link link-footer" href="#">Trainers</a></li>
+                            <li><a class="link link-footer" href="#">Contact</a></li>
                         </ul>
                     </div>
                     <div class="col-md-3">
                         <h5>Contact Us</h5>
-                        <address>
+                        <address style="color: #eeeeee;">
                             123 Gym Street<br>
                             City, State 12345<br>
                             Phone: 123-456-7890<br>
@@ -87,5 +87,6 @@
                 </div>
             </div>
         </footer>
+        <script src="{% static 'scripts.js' %}"></script>
     </body>
 </html>

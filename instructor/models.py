@@ -20,7 +20,7 @@ class Instructor(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return self.user.username
+        return f'Instructor: {self.user.first_name} {self.user.last_name}'
 
 
 @receiver(post_save, sender=Instructor)

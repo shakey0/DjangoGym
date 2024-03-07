@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid max-width-custom">
+    <div class="col-md-8 offset-md-2">
+        {% if user.is_staff %}
+            <div class="d-flex align-items-center ms-2 me-2 adj-430w schedule-max-width" id="classes-title-div">
+                <h1 class="mt-4 mb-4">Our Schedule</h1>
+                <div class="ms-auto" id="classes-admin-main-buttons">
+                    <a href="" class="btn btn-primary btn-lg" style="height: 50px;">Add Class</a>
+                </div>
+            </div>
+        {% else %}
+            <h1 class="mt-4 mb-4 ms-2 me-2">Our Schedule</h1>
+        {% endif %}
+    </div>
+    {% for scheduled in full_schedule %}
+    <div class="row mt-4 mb-4">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                {% if user.is_staff %}
+                <div class="card-header d-flex align-items-center scheduled-title-div">
+                    <h5 class="card-title mb-0 fs-2">{{ scheduled.class_id.name }}</h5>
+                    <div class="ms-auto scheduled-top-buttons">
+                        <a href="" class="btn btn-primary ms-auto book-button me-1">Edit</a>
+                        <a href="" class="btn btn-success ms-auto book-button">Book</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="card-header d-flex align-items-center">
+                    <h5 class="card-title mb-0 fs-2">{{ scheduled.class_id.name }}</h5>
+                    <div class="ms-auto">
+                        <a href="" class="btn btn-success ms-auto book-button book-button-395">Book</a>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="card-body d-flex">
+                    <div>
+                        <p class="text-success fw-bold me-2 mb-2 scheduled-card-font">Instructor:</p>
+                        <p class="text-success fw-bold me-2 mb-2 scheduled-card-font">Date:</p>
+                        <p class="text-success fw-bold me-2 mb-2 scheduled-card-font">Time:</p>
+                        <p class="text-success fw-bold me-2 mb-2 scheduled-card-font">Room:</p>
+                        {% comment %} !!!!!!!!! Write an if statement to check if the class is full or not {% endcomment %}
+                        <p class="text-success fw-bold me-2 mb-0 scheduled-card-font">Spaces:</p>
+                    </div>
+                    <div class="ms-2">
+                        <p class="card-text mb-2 scheduled-card-font"><a class="link link-classes" href="">{{ scheduled.instructor.user.first_name }}</a></p>
+                        <p class="card-text mb-2 scheduled-card-font">{{ scheduled.date|date:"j F" }}</p>
+                        <p class="card-text mb-2 scheduled-card-font">{{ scheduled.start_time }} - {{ scheduled.end_time }}</p>
+                        <p class="card-text mb-2 scheduled-card-font">{{ scheduled.room }}</p>
+                        {% comment %} !!!!!!!!! Write an if statement to check if the class is full or not {% endcomment %}
+                        <p class="card-text mb-0 scheduled-card-font">{{ scheduled.spaces }} left</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

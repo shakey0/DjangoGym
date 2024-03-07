@@ -29,3 +29,30 @@ function adjustClassesForScreenWidth() {
 window.addEventListener('resize', adjustClassesForScreenWidth);
 
 adjustClassesForScreenWidth();
+
+
+function adjustScheduledForScreenWidth() {
+
+    var titleDivs = document.querySelectorAll('.scheduled-title-div');
+    var adminMainButtons = document.querySelectorAll('.scheduled-top-buttons');
+
+    if (window.innerWidth <= 430) {
+        titleDivs.forEach(function(div) {
+            div.classList.remove('d-flex');
+        });
+        adminMainButtons.forEach(function(btn) {
+            btn.classList.add('mt-2');
+        });
+    } else {
+        titleDivs.forEach(function(div) {
+            div.classList.add('d-flex');
+        });
+        adminMainButtons.forEach(function(btn) {
+            btn.classList.remove('mt-2');
+        });
+    }
+}
+
+window.addEventListener('resize', adjustScheduledForScreenWidth);
+
+adjustScheduledForScreenWidth();

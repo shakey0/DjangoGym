@@ -9,8 +9,10 @@ class Scheduled(models.Model):
     class_id = models.ForeignKey(Class, on_delete=models.RESTRICT)
     instructor = models.ForeignKey(Instructor, on_delete=models.RESTRICT)
     users = models.ManyToManyField(User, related_name='scheduled_users')
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    room = models.CharField(max_length=50, default='TBD')
     capacity = models.IntegerField()
 
     def __str__(self):

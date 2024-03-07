@@ -127,3 +127,46 @@ body {
 .hover-hand:hover {
     cursor: pointer;
 }
+
+.scheduled-card-font {
+    font-size: 1.2rem;
+}
+@media (max-width: 395px) {
+    .scheduled-card-font {
+        font-size: 1.1rem;
+    }
+}
+@media (max-width: 360px) {
+    .scheduled-card-font {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 340px) {
+    .scheduled-card-font {
+        font-size: 0.95rem;
+    }
+}
+
+.book-button {
+    font-size: 1.2rem;
+}
+@media (max-width: 430px) {
+    .book-button {
+        font-size: 1.1rem;
+    }
+}
+@media (max-width: 360px) {
+    .book-button {
+        font-size: 1rem;
+    }
+}
+
+.schedule-max-width {
+    max-width: 800px;
+}
+
+@media (max-width: 395px) {
+    .book-button-395 {
+        transform: translateX(10px);
+    }
+}

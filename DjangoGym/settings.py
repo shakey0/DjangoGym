@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'scheduled.apps.ScheduledConfig',
     'instructor.apps.InstructorConfig',
     'classes.apps.ClassConfig',
     'users.apps.UsersConfig',

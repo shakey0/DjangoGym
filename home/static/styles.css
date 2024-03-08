@@ -128,21 +128,21 @@ body {
     cursor: pointer;
 }
 
-.scheduled-card-font {
+.scheduled-card-font, .user-card-font {
     font-size: 1.2rem;
 }
 @media (max-width: 395px) {
-    .scheduled-card-font {
+    .scheduled-card-font, .user-card-font {
         font-size: 1.1rem;
     }
 }
 @media (max-width: 360px) {
-    .scheduled-card-font {
+    .scheduled-card-font, .user-card-font {
         font-size: 1rem;
     }
 }
 @media (max-width: 340px) {
-    .scheduled-card-font {
+    .scheduled-card-font, .user-card-font {
         font-size: 0.95rem;
     }
 }
@@ -169,4 +169,8 @@ body {
     .book-button-395 {
         transform: translateX(10px);
     }
+}
+
+.user-profile-max-width {
+    max-width: 1080px;
 }

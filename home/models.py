@@ -4,7 +4,8 @@ from django.db import models
 class Image(models.Model):
     image = models.ImageField(upload_to='home')
     desc = models.TextField()
-    link = models.CharField(max_length=100, blank=True, null=True)
+    link_text = models.CharField(max_length=50, blank=True, null=True)
+    link = models.CharField(max_length=50, blank=True, null=True)
     order = models.IntegerField(default=100)
 
     class Meta:

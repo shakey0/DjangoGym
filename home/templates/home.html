@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <div class="card img-fluid h-100">
                 <img src="{{ item.image.url }}" class="img-fluid crop-image" alt="Image">
-                <p class="lead mt-2 ms-3 me-3">{{ item.desc }}{% if item.link %} See our <a href="" class="link-primary text-decoration-none">{{ item.link }}</a>.{% endif %}</p>
+                <p class="lead mt-2 ms-3 me-3">{{ item.desc }}{% if item.link %} See our <a href="/{{ item.link }}" class="link-primary text-decoration-none">{{ item.link_text }}</a>.{% endif %}</p>
             </div>
         </div>
         {% if forloop.counter|divisibleby:2 and not forloop.last %}

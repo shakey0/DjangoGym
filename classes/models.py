@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from instructor.models import Instructor
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -9,7 +10,7 @@ class Class(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='classes')
     desc = models.TextField()
-    # add many to many field for instructors
+    instructors = models.ManyToManyField(Instructor, related_name='class_instructors')
     order = models.IntegerField(blank=True, null=True)
 
     class Meta:

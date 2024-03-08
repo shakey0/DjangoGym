@@ -2,15 +2,15 @@
 
 {% block content %}
 <div class="container-fluid mt-4 user-profile-max-width">
-    {% if user.pk == request.user.pk %}
-    <h3 {% if not user.is_staff %}class="col-md-4 offset-md-4"{% endif %}>Your Profile</h3>
+    {% if v_user.pk == user.pk %}
+    <h3 {% if not v_user.is_staff %}class="col-md-4 offset-md-4"{% endif %}>Your Profile</h3>
     {% else %}
-    <h3 {% if not user.is_staff %}class="col-md-4 offset-md-4"{% endif %}>{{ user.first_name }} {{ user.last_name }}</h3>
+    <h3 {% if not v_user.is_staff %}class="col-md-4 offset-md-4"{% endif %}>{{ v_user.first_name }} {{ v_user.last_name }}</h3>
     {% endif %}
-    {% if user.is_staff %}
+    {% if v_user.is_staff %}
     <div class="row">
         <div class="col-md-5 d-flex flex-column">
-            <img src="{{ user.instructor.image.url }}" alt="{{ user.first_name }}" class="rounded border border-secondary p-2 mb-2" style="width: auto; max-width: 100%; height: auto;">
+            <img src="{{ v_user.instructor.image.url }}" alt="{{ v_user.first_name }}" class="rounded border border-secondary p-2 mb-2" style="width: auto; max-width: 100%; height: auto;">
             <div class="w-100 mb-1">
                 <form method="post" enctype="multipart/form-data" action="/upload-profile-picture/">
                     {% csrf_token %}
@@ -27,37 +27,37 @@
                 <div class="card-body">
                     <div>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Name:</p>
-                        <p class="card-text mb-3 user-card-font">{{ user.first_name }} {{ user.last_name }}</p>
+                        <p class="card-text mb-3 user-card-font">{{ v_user.first_name }} {{ v_user.last_name }}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Email:</p>
-                        <p class="card-text mb-3 user-card-font">{{ user.email }}</p>
+                        <p class="card-text mb-3 user-card-font">{{ v_user.email }}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Login Password:</p>
                         <p class="card-text mb-2 user-card-font">********</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Phone:</p>
-                        <p class="card-text mb-3 user-card-font">{% if user.is_staff %}{{ user.instructor.phone }}{% else %}{{ user.client.phone }}{% endif %}</p>
+                        <p class="card-text mb-3 user-card-font">{% if v_user.is_staff %}{{ v_user.instructor.phone }}{% else %}{{ v_user.client.phone }}{% endif %}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Date of Birth:</p>
-                        <p class="card-text mb-3 user-card-font">{% if user.is_staff %}{{ user.instructor.DOB|date:"d M Y" }}{% else %}{{ user.client.DOB|date:"d M Y" }}{% endif %}</p>
+                        <p class="card-text mb-3 user-card-font">{% if v_user.is_staff %}{{ v_user.instructor.DOB|date:"d M Y" }}{% else %}{{ v_user.client.DOB|date:"d M Y" }}{% endif %}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Access No.:</p>
-                        <p class="card-text mb-3 user-card-font">{% if user.is_staff %}{{ user.instructor.entry_code }}{% else %}{{ user.client.entry_code }}{% endif %}</p>
-                        {% if user.is_staff %}
+                        <p class="card-text mb-3 user-card-font">{% if v_user.is_staff %}{{ v_user.instructor.entry_code }}{% else %}{{ v_user.client.entry_code }}{% endif %}</p>
+                        {% if v_user.is_staff %}
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Title:</p>
-                        <p class="card-text mb-3 user-card-font">{{ user.instructor.instr_type }}</p>
+                        <p class="card-text mb-3 user-card-font">{{ v_user.instructor.instr_type }}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Description:</p>
-                        <p class="card-text mb-3 user-card-font">{{ user.instructor.desc }}</p>
+                        <p class="card-text mb-3 user-card-font">{{ v_user.instructor.desc }}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Qualifications:</p>
                         <ul class="mb-3">
-                            {% for q in user.instructor.qualifications %}
+                            {% for q in v_user.instructor.qualifications %}
                             <li class="card-text user-card-font">{{ q }}</li>
                             {% endfor %}
                         </ul>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Activities:</p>
                         <ul class="mb-1">
-                            {% for activity in user.instructor.activities %}
+                            {% for activity in v_user.instructor.activities %}
                             <li class="card-text user-card-font">{{ activity }}</li>
                             {% endfor %}
                         </ul>
                         {% else %}
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Membership:</p>
-                        <p class="card-text mb-1 user-card-font">{{ user.client.membership }}</p>
+                        <p class="card-text mb-1 user-card-font">{{ v_user.client.membership }}</p>
                         {% endif %}
                     </div>
                 </div>

@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 class UserProfile(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
     template_name = 'user_profile.html'
-    context_object_name = 'user'
+    context_object_name = 'v_user'
     
     def test_func(self):
         user = self.get_object()

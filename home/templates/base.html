@@ -44,7 +44,7 @@
                         {% endif %}
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link link link-color-custom" href="">Profile</a>
+                            <a class="nav-link link link-color-custom" href="{% url 'users:user_profile' user.id %}">Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link link-color-custom" href="">Logout</a>

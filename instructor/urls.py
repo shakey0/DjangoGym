@@ -5,4 +5,5 @@ from django.urls import path
 app_name = 'staff'
 urlpatterns = [
     path('', views.AllStaff.as_view(), name='staff'),
+    path('<int:pk>/', views.StaffDetail.as_view(), name='staff_detail'),
 ]

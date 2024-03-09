@@ -11,3 +11,8 @@ class AllStaff(ListView):
     model = Instructor
     template_name = 'instructors.html'
     context_object_name = 'team'
+
+
+class StaffDetail(DetailView):
+    model = Instructor
+    template_name = 'instructor_profile.html'

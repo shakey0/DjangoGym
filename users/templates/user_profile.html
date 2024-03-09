@@ -1,15 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fluid mt-4 user-profile-max-width">
-    {% if v_user.pk == user.pk %}
-    <h3 {% if not v_user.is_staff %}class="col-md-4 offset-md-4"{% endif %}>Your Profile</h3>
+<div class="container-fluid mt-4 user-profile-max-width mb-3">
+    {% if user.is_staff or v_user.pk == user.pk %}
+        <div class="d-flex align-items-center adj-430w mb-4" id="title-div">
+            {% if v_user.pk == user.pk %}
+            <h1 class="{% if not v_user.is_staff %}col-md-4 offset-md-4{% endif %}">Your Profile</h1>
+            {% else %}
+            <h1 class="{% if not v_user.is_staff %}col-md-4 offset-md-4{% endif %}">{{ v_user.first_name }} {{ v_user.last_name }}</h1>
+            {% endif %}
+            {% if v_user.is_staff %}
+            <div class="ms-auto" id="admin-main-buttons-profile">
+                <a href="" class="btn btn-primary" style="height: 40px;">Update Details</a>
+            </div>
+            {% endif %}
+        </div>
+        {% if not v_user.is_staff %}
+        <a href="" class="btn btn-primary offset-md-4" style="height: 40px; transform: translateY(-15px)">Update Details</a>
+        {% endif %}
     {% else %}
-    <h3 {% if not v_user.is_staff %}class="col-md-4 offset-md-4"{% endif %}>{{ v_user.first_name }} {{ v_user.last_name }}</h3>
+        {% if v_user.pk == user.pk %}
+        <h1 class="{% if not v_user.is_staff %}col-md-4 offset-md-4{% endif %} mb-4">Your Profile</h1>
+        {% else %}
+        <h1 class="{% if not v_user.is_staff %}col-md-4 offset-md-4{% endif %} mb-4">{{ v_user.first_name }} {{ v_user.last_name }}</h1>
+        {% endif %}
     {% endif %}
     {% if v_user.is_staff %}
     <div class="row">
-        <div class="col-md-5 d-flex flex-column">
+        <div class="col-md-5 d-flex flex-column mb-3">
             <img src="{{ v_user.instructor.image.url }}" alt="{{ v_user.first_name }}" class="rounded border border-secondary p-2 mb-2" style="width: auto; max-width: 100%; height: auto;">
             <div class="w-100 mb-1">
                 <form method="post" enctype="multipart/form-data" action="/upload-profile-picture/">
@@ -20,9 +38,9 @@
             </div>
         </div>
         <div class="col-md-7 mb-5">
-        {% else %}
+    {% else %}
         <div class="col-md-4 offset-md-4 mb-5">
-        {% endif %}
+    {% endif %}
             <div class="card">
                 <div class="card-body">
                     <div>
@@ -30,8 +48,8 @@
                         <p class="card-text mb-3 user-card-font">{{ v_user.first_name }} {{ v_user.last_name }}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Email:</p>
                         <p class="card-text mb-3 user-card-font">{{ v_user.email }}</p>
-                        <p class="text-success fw-bold me-2 mb-0 user-card-font">Login Password:</p>
-                        <p class="card-text mb-2 user-card-font">********</p>
+                        <p class="text-success fw-bold me-2 {% if user.is_superuser or v_user.pk == user.pk %}mb-1{% else %}mb-0{% endif %} user-card-font">Login Password:</p>
+                        <p class="card-text mb-2 user-card-font">********{% if user.is_superuser or v_user.pk == user.pk %} <button class="btn btn-primary btn-sm" style="transform: translateY(-5px)">Change</button>{% endif %}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Phone:</p>
                         <p class="card-text mb-3 user-card-font">{% if v_user.is_staff %}{{ v_user.instructor.phone }}{% else %}{{ v_user.client.phone }}{% endif %}</p>
                         <p class="text-success fw-bold me-2 mb-0 user-card-font">Date of Birth:</p>

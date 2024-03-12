@@ -64,11 +64,20 @@ class UpdateInstructorForm(forms.Form):
     last_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'staff-input-width'}))
     email = forms.EmailField(max_length=50, required=True, widget=forms.EmailInput(attrs={'class': 'staff-input-width'}))
     phone = forms.CharField(max_length=15, required=True, widget=forms.TextInput(attrs={'class': 'staff-input-width'}))
-    image = forms.ImageField(required=True, widget=forms.FileInput(attrs={'class': 'staff-input-width'}), label='Profile Picture')
     instr_type = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'staff-input-width'}), label='Instructor Type')
     desc = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'staff-input-width'}), label='Description')
-    qualifications = forms.JSONField(required=True, widget=forms.Textarea(attrs={'class': 'staff-input-width'}))
-    activities = forms.JSONField(required=True, widget=forms.Textarea(attrs={'class': 'staff-input-width'}))
+    qualifications_input = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'staff-input-width'}), label='Qualifications', help_text='Enter qualifications and separate each of them with a comma (,)')
+    activities_input = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'staff-input-width'}), label='Activities', help_text='Enter activities and separate each of them with a comma (,)')
+    
+    def clean_qualifications_input(self):
+        input_data = self.cleaned_data['qualifications_input']
+        qualifications_list = [item.strip() for item in input_data.split(',')]
+        return qualifications_list
+
+    def clean_activities_input(self):
+        input_data = self.cleaned_data['activities_input']
+        activities_list = [item.strip() for item in input_data.split(',')]
+        return activities_list
     
     def save(self, instructor):
         # Assume the client is passed as an argument to this method after being retrieved by pk in the view
@@ -79,11 +88,10 @@ class UpdateInstructorForm(forms.Form):
         user.save()
         
         instructor.phone = self.cleaned_data['phone']
-        instructor.image = self.cleaned_data['image']
         instructor.instr_type = self.cleaned_data['instr_type']
         instructor.desc = self.cleaned_data['desc']
-        instructor.qualifications = self.cleaned_data['qualifications']
-        instructor.activities = self.cleaned_data['activities']
+        instructor.qualifications = self.cleaned_data['qualifications_input']
+        instructor.activities = self.cleaned_data['activities_input']
         instructor.save()
         
         return user

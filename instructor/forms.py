@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Instructor
-import random, string, json
+import random, string
 
 
 class RegisterForm(forms.Form):

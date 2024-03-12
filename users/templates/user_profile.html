@@ -15,7 +15,7 @@
             {% endif %}
             {% if v_user.is_staff %}
             <div class="ms-auto" id="admin-main-buttons-profile">
-                <a href="" class="btn btn-primary" style="height: 40px;">Update Details</a>
+                <a href="{% url 'staff:update_instructor' v_user.instructor.id %}" class="btn btn-primary" style="height: 40px;">Update Details</a>
             </div>
             {% endif %}
         </div>
@@ -34,10 +34,10 @@
         <div class="col-md-5 d-flex flex-column mb-3">
             <img src="{{ v_user.instructor.image.url }}" alt="{{ v_user.first_name }}" class="rounded border border-secondary p-2 mb-2" style="width: auto; max-width: 100%; height: auto;">
             <div class="w-100 mb-1">
-                <form method="post" enctype="multipart/form-data" action="/upload-profile-picture/">
+                <form method="post" enctype="multipart/form-data" action="update_photo/">
                     {% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="btn btn-primary mt-1">Upload</button>
+                    {{ update_photo_form }}
+                    <button type="submit" class="btn btn-primary mt-2">Upload</button>
                 </form>
             </div>
         </div>

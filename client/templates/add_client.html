@@ -3,7 +3,16 @@
 {% block content %}
 <div class="container-fluid mt-4 mb-5 d-flex flex-column align-items-center">
     <form method="post" class="form-767px">
-        <h1 class="mb-4">{% if is_add %}Add Client{% else %}Edit Client{% endif %}</h1>
+        {% if is_add %}
+        <h1 class="mb-4">Add Client</h1>
+        {% else %}
+        <div class="d-flex align-items-center adj-430w" id="title-div">
+            <h1 class="mt-4 mb-4">Edit Client</h1>
+            <div class="ms-auto" id="admin-main-buttons">
+                <a href="{% url 'clients:delete_client' client.id %}" class="btn btn-danger" style="height: 40px;">Delete Client</a>
+            </div>
+        </div>
+        {% endif %}
         {% for field in form %}
             <div class="fieldWrapper">
                 {{ field.errors }}

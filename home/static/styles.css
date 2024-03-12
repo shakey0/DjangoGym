@@ -184,8 +184,12 @@ body {
     }
 }
 
-.user-profile-max-width {
+.user-profile-max-width-instructor {
     max-width: 1080px;
+}
+
+.user-profile-max-width-client {
+    max-width: 480px;
 }
 
 .selected-hover {

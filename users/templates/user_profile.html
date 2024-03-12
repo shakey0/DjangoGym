@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fluid mt-4 user-profile-max-width mb-3">
+{% if v_user.is_staff %}
+<div class="container-fluid mt-4 user-profile-max-width-instructor mb-3">
+{% else %}
+<div class="container-fluid mt-4 user-profile-max-width-client mb-3">
+{% endif %}
     {% if user.is_staff or v_user.pk == user.pk %}
         <div class="d-flex align-items-center adj-430w mb-4" id="title-div">
             {% if v_user.pk == user.pk %}
-            <h1 class="{% if not v_user.is_staff %}col-md-4 offset-md-4{% endif %}">Your Profile</h1>
+            <h1>Your Profile</h1>
             {% else %}
-            <h1 class="{% if not v_user.is_staff %}col-md-4 offset-md-4{% endif %}">{{ v_user.first_name }} {{ v_user.last_name }}</h1>
+            <h1>{{ v_user.first_name }} {{ v_user.last_name }}</h1>
             {% endif %}
             {% if v_user.is_staff %}
             <div class="ms-auto" id="admin-main-buttons-profile">
@@ -16,13 +20,13 @@
             {% endif %}
         </div>
         {% if not v_user.is_staff %}
-        <a href="{% url 'clients:update_client' v_user.client.id %}" class="btn btn-primary offset-md-4" style="height: 40px; transform: translateY(-15px)">Update Details</a>
+        <a href="{% url 'clients:update_client' v_user.client.id %}" class="btn btn-primary" style="height: 40px; transform: translateY(-15px)">Update Details</a>
         {% endif %}
     {% else %}
         {% if v_user.pk == user.pk %}
-        <h1 class="{% if not v_user.is_staff %}col-md-4 offset-md-4{% endif %} mb-4">Your Profile</h1>
+        <h1 class="mb-4">Your Profile</h1>
         {% else %}
-        <h1 class="{% if not v_user.is_staff %}col-md-4 offset-md-4{% endif %} mb-4">{{ v_user.first_name }} {{ v_user.last_name }}</h1>
+        <h1 class="mb-4">{{ v_user.first_name }} {{ v_user.last_name }}</h1>
         {% endif %}
     {% endif %}
     {% if v_user.is_staff %}
@@ -39,7 +43,7 @@
         </div>
         <div class="col-md-7 mb-5">
     {% else %}
-        <div class="col-md-4 offset-md-4 mb-5">
+        <div class="mb-5">
     {% endif %}
             <div class="card">
                 <div class="card-body">

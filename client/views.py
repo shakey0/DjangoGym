@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Client
-from django.views.generic import ListView, DeleteView
-# from .forms import AddClassForm
+from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import RegisterForm, UpdateClientForm
@@ -44,4 +43,13 @@ def update_client(request, pk):
             'membership': client.membership,
         }
         form = UpdateClientForm(initial=initial_data)
-    return render(request, 'add_client.html', {'form': form})
+    return render(request, 'add_client.html', {'form': form, 'is_add': False, 'client': client})
+
+
+@staff_member_required
+def delete_client(request, pk):
+    client = get_object_or_404(Client, pk=pk)
+    if request.method == 'POST':
+        client.user.delete()
+        return redirect('clients:clients')
+    return render(request, 'delete_client.html', {'client': client})

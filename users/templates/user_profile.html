@@ -11,12 +11,12 @@
             {% endif %}
             {% if v_user.is_staff %}
             <div class="ms-auto" id="admin-main-buttons-profile">
-                <a href="" class="btn btn-primary" style="height: 40px;">Update Details</a>
+                <a href="{% url 'clients:update_client' v_user.client.id %}" class="btn btn-primary" style="height: 40px;">Update Details</a>
             </div>
             {% endif %}
         </div>
         {% if not v_user.is_staff %}
-        <a href="" class="btn btn-primary offset-md-4" style="height: 40px; transform: translateY(-15px)">Update Details</a>
+        <a href="{% url 'clients:update_client' v_user.client.id %}" class="btn btn-primary offset-md-4" style="height: 40px; transform: translateY(-15px)">Update Details</a>
         {% endif %}
     {% else %}
         {% if v_user.pk == user.pk %}

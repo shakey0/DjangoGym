@@ -44,4 +44,32 @@ class RegisterForm(forms.Form):
         client = Client(**client_data)
         client.save()
         
-        return user, client
+        return user
+
+
+class UpdateClientForm(forms.Form):
+    first_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'staff-input-width'}))
+    last_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'staff-input-width'}))
+    email = forms.EmailField(max_length=50, required=True, widget=forms.EmailInput(attrs={'class': 'staff-input-width'}))
+    phone = forms.CharField(max_length=15, required=True, widget=forms.TextInput(attrs={'class': 'staff-input-width'}))
+    membership = forms.ChoiceField(choices=[('', 'Select'), ('Basic', 'Basic'), ('Standard', 'Standard'), ('Premium', 'Premium'), ('VIP', 'VIP')], required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}))
+    
+    def clean_membership(self):
+        data = self.cleaned_data['membership']
+        if data == '':
+            raise ValidationError("Please select a valid membership option.")
+        return data
+    
+    def save(self, client):
+        # Assume the client is passed as an argument to this method after being retrieved by pk in the view
+        user = client.user
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data['email']
+        user.save()
+        
+        client.phone = self.cleaned_data['phone']
+        client.membership = self.cleaned_data['membership']
+        client.save()
+        
+        return user

@@ -6,12 +6,12 @@
         <h1 class="mb-4">{% if is_add %}Add New Class{% else %}Update Class{% endif %}</h1>
         {% for field in form %}
             <div class="fieldWrapper">
-                {{ field.errors }}
                 <div class="label mt-2">{{ field.label_tag }}</div>
-                <div class="field">{{ field }}</div>
                 {% if field.help_text %}
-                    <p class="help">{{ field.help_text|safe }}</p>
+                    <p class="help mb-1" style="font-size: 11px;">{{ field.help_text|safe }}</p>
                 {% endif %}
+                <div class="field">{{ field }}</div>
+                <div class="error-message" style="color: red;">{{ field.errors }}</div>
             </div>
         {% endfor %}
         {% csrf_token %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid mt-4 mb-5 d-flex flex-column align-items-center">
+    <form method="post" enctype="multipart/form-data" class="form-767px" >
+        {% if is_add %}
+        <h1 class="mb-4">Add Staff</h1>
+        {% else %}
+        <div class="d-flex align-items-center adj-430w" id="title-div">
+            <h1 class="mt-4 mb-4">Edit Staff</h1>
+            <div class="ms-auto" id="admin-main-buttons">
+                <a href="" class="btn btn-danger" style="height: 40px;">Delete Staff</a>
+            </div>
+        </div>
+        {% endif %}
+        {% for field in form %}
+            <div class="fieldWrapper">
+                <div class="label mt-2">{{ field.label_tag }}</div>
+                {% if field.help_text %}
+                    <p class="help mb-1" style="font-size: 11px;">{{ field.help_text|safe }}</p>
+                {% endif %}
+                <div class="field">{{ field }}</div>
+                <div class="error-message" style="color: red;">{{ field.errors }}</div>
+            </div>
+        {% endfor %}
+        {% csrf_token %}
+        <button class="mt-3" type="submit">{% if is_add %}Add Staff{% else %}Update{% endif %}</button>
+    </form>
+</div>
+{% endblock %}

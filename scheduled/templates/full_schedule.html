@@ -4,14 +4,14 @@
 <div class="container-fluid max-width-custom">
     <div class="col-md-8 offset-md-2">
         {% if user.is_staff %}
-            <div class="d-flex align-items-center ms-2 me-2 adj-430w schedule-max-width" id="title-div">
+            <div class="d-flex align-items-center adj-430w schedule-max-width" id="title-div">
                 <h1 class="mt-4 mb-4">Our Schedule</h1>
                 <div class="ms-auto" id="admin-main-buttons">
                     <a href="" class="btn btn-primary btn-lg" style="height: 50px;">Add Class</a>
                 </div>
             </div>
         {% else %}
-            <h1 class="mt-4 mb-4 ms-2 me-2">Our Schedule</h1>
+            <h1 class="mt-4 mb-4">Our Schedule</h1>
         {% endif %}
     </div>
     {% for scheduled in full_schedule %}
@@ -49,7 +49,7 @@
                         <p class="card-text mb-2 scheduled-card-font">{{ scheduled.start_time }} - {{ scheduled.end_time }}</p>
                         <p class="card-text mb-2 scheduled-card-font">{{ scheduled.room }}</p>
                         {% comment %} !!!!!!!!! Write an if statement to check if the class is full or not {% endcomment %}
-                        <p class="card-text mb-0 scheduled-card-font">{{ scheduled.spaces }} left</p>
+                        <p class="card-text mb-0 scheduled-card-font">{{ scheduled.spaces }} left out of {{ scheduled.capacity }}</p>
                     </div>
                 </div>
             </div>

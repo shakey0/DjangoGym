@@ -12,6 +12,9 @@ class AllClients(ListView):
     model = Client
     template_name = 'clients.html'
     context_object_name = 'clients'
+    
+    def get_queryset(self):
+        return Client.objects.all().order_by('id')
 
 
 @staff_member_required

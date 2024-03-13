@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container-fluid max-width-custom">
     <div class="col-md-8 offset-md-2">
-        {% if user.is_staff and schedule_type != "my" %}
+        {% if user.is_staff and schedule_type != "my" and schedule_type != "instructor" %}
             <div class="d-flex align-items-center adj-430w schedule-max-width" id="title-div">
                 <h1 class="mt-4 mb-4">{% if schedule_type == "full" %}Our Schedule{% else %}{{ class_name }} Classes{% endif %}</h1>
                 <div class="ms-auto" id="admin-main-buttons">
@@ -11,14 +11,14 @@
                 </div>
             </div>
         {% else %}
-            <h1 class="mt-4 mb-4">{% if schedule_type == "full" %}Our Schedule{% elif schedule_type == "my" %}Your Bookings{% else %}{{ class_name }} Classes{% endif %}</h1>
+            <h1 class="mt-4 mb-4">{% if schedule_type == "full" %}Our Schedule{% elif schedule_type == "my" %}Your Bookings{% elif schedule_type == "class" %}{{ class_name }} Classes{% else %}Classes Lead by {{ instructor_name }}{% endif %}</h1>
         {% endif %}
     </div>
     {% for scheduled in given_schedule %}
     <div class="row mt-4 mb-4">
         <div class="col-md-8 offset-md-2">
             <div class="card">
-                {% if user.is_staff and schedule_type != "my" %}
+                {% if user.is_staff and schedule_type != "my" and schedule_type != "instructor" %}
                 <div class="card-header d-flex align-items-center scheduled-title-div">
                     <h5 class="card-title mb-0 fs-2">{{ scheduled.class_id.name }}</h5>
                     <div class="ms-auto scheduled-top-buttons">
@@ -42,7 +42,7 @@
                                 <button type="submit" class="btn btn-success book-button">Book</button>
                             </form>
                             {% endif %}
-                        {% if user.is_staff and schedule_type != "my" %}
+                        {% if user.is_staff and schedule_type != "my" and schedule_type != "instructor" %}
                         </div>
                         {% endif %}
                     </div>

@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from .models import Scheduled
 from classes.models import Class
+from instructor.models import Instructor
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .forms import AddScheduledForm
 from django.utils.decorators import method_decorator
@@ -67,6 +68,22 @@ class ClassSchedule(ListView):
         context = super().get_context_data(**kwargs)
         context['schedule_type'] = 'class'
         context['class_name'] = Class.objects.get(id=self.kwargs['class_id']).name
+        return context
+    
+    
+class InstructorSchedule(ListView):
+    model = Scheduled
+    template_name = 'schedule.html'
+    context_object_name = 'given_schedule'
+    paginate_by = 20
+    
+    def get_queryset(self):
+        return Scheduled.objects.filter(instructor_id=self.kwargs['instructor_id']).order_by('date', 'start_time')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['schedule_type'] = 'instructor'
+        context['instructor_name'] = Instructor.objects.get(id=self.kwargs['instructor_id']).user.username
         return context
 
 

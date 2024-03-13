@@ -34,7 +34,7 @@
                     </div>
                 {% endif %}
                 <div class="d-flex ms-3 me-3">
-                    <p class="fs-3 mb-1">See <a class="link link-classes-light" href="">Upcoming Classes</a></p>
+                    <p class="fs-3 mb-1">See <a class="link link-classes-light" href="{% url 'scheduled:instructor_schedule' instructor.id %}">Upcoming Classes</a></p>
                 </div>
                 <p class="lead mt-1 ms-3 me-3">{{ instructor.desc }}</p>
                 <a href="{% url 'instructors:instructor_detail' instructor.id %}" class="btn btn-info btn-lg mb-3 ms-3 me-3" style="height: 50px;">See More</a>

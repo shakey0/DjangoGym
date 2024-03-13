@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from .models import Scheduled
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .forms import AddScheduledForm
@@ -10,8 +10,26 @@ class FullSchedule(ListView):
     model = Scheduled
     template_name = 'full_schedule.html'
     context_object_name = 'full_schedule'
-    ordering = ['start_time']
+    ordering = ['date', 'start_time']
     paginate_by = 20
+    
+    
+def book_class(request):
+    if request.method == 'POST':
+        user = request.user
+        scheduled = Scheduled.objects.get(id=request.POST['scheduled_id'])
+        scheduled.users.add(user)
+        scheduled.save()
+        return redirect('/scheduled/')
+    
+
+def cancel_class(request):
+    if request.method == 'POST':
+        user = request.user
+        scheduled = Scheduled.objects.get(id=request.POST['scheduled_id'])
+        scheduled.users.remove(user)
+        scheduled.save()
+        return redirect('/scheduled/')
 
 
 @method_decorator(staff_member_required, name='dispatch')

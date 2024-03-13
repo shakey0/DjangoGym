@@ -28,7 +28,10 @@ def sort_staff(request):
         for item in form_data:
             if item.startswith('instructor'):
                 instructor_id = item.split('_')[1]
-                new_order = str(int(form_data[item]) * 100)
+                try:
+                    new_order = str(int(form_data[item]) * 100)
+                except ValueError:
+                    return redirect('staff:staff')
                 if instructor_id in instructors_dict:
                     instructor_instance = instructors_dict[instructor_id]
                     instructor_instance.order = new_order

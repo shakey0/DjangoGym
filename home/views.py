@@ -38,7 +38,10 @@ def sort_images(request):
         for item in form_data:
             if item.startswith('image'):
                 image_id = item.split('_')[1]
-                new_order = str(int(form_data[item]) * 100)
+                try:
+                    new_order = str(int(form_data[item]) * 100)
+                except ValueError:
+                    return redirect('home:index')
                 if image_id in images_dict:
                     image_instance = images_dict[image_id]
                     image_instance.order = new_order

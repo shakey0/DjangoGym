@@ -23,7 +23,10 @@ def sort_classes(request):
         for item in form_data:
             if item.startswith('class'):
                 class_id = item.split('_')[1]
-                new_order = str(int(form_data[item]) * 100)
+                try:
+                    new_order = str(int(form_data[item]) * 100)
+                except ValueError:
+                    return redirect('classes:classes')
                 if class_id in classes_dict:
                     class_instance = classes_dict[class_id]
                     class_instance.order = new_order

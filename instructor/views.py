@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import RegisterForm, UpdateInstructorForm
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 
 
 class AllStaff(ListView):
@@ -15,6 +16,32 @@ class AllStaff(ListView):
 class StaffDetail(DetailView):
     model = Instructor
     template_name = 'instructor_profile.html'
+    
+    
+@staff_member_required
+def sort_staff(request):
+    if request.method == 'POST':
+        form_data = request.POST
+        instructor_ids = [item.split('_')[1] for item in form_data if item.startswith('instructor')]
+        instructors_dict = {str(instructor_obj.pk): instructor_obj for instructor_obj in Instructor.objects.filter(pk__in=instructor_ids)}
+        instructors_to_update = []
+        for item in form_data:
+            if item.startswith('instructor'):
+                instructor_id = item.split('_')[1]
+                new_order = str(int(form_data[item]) * 100)
+                if instructor_id in instructors_dict:
+                    instructor_instance = instructors_dict[instructor_id]
+                    instructor_instance.order = new_order
+                    instructors_to_update.append(instructor_instance)
+        if instructors_to_update:
+            with transaction.atomic():
+                Instructor.objects.bulk_update(instructors_to_update, ['order'])
+        return redirect('staff:staff')
+    instructors = Instructor.objects.all()
+    context = {
+        'instructors': instructors,
+    }
+    return render(request, 'sort_staff.html', context)
 
 
 @staff_member_required

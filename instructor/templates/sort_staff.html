@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid max-width-custom sort-width-767px mb-5">
+    <form action="{% url 'staff:sort_staff' %}" method="post">
+        {% csrf_token %}
+        <div class="d-flex align-items-center adj-430w" id="title-div">
+            <h1 class="mt-4 mb-4">Sort Staff</h1>
+            <button type="submit" class="btn btn-warning btn-lg mt-3 fw-bold ms-auto" style="transform: translateY(-8px); min-width: 200px;" id="admin-main-buttons">Save Order</button>
+        </div>
+        <div id="posts-grid" class="row">
+            {% for instructor in instructors %}
+            <div class="col-md-3 mb-3 hover-hand">
+                <div class="card h-100">
+                    <input type="hidden" name="instructor_{{ instructor.id }}" value="{{ loop.index }}">
+                    <img src="{{ instructor.image.url }}" class="img-fluid crop-image" alt="Image">
+                    <h5 class="card-title mt-2 ms-3 me-3 border-bottom-after">{{ instructor.name }}</h5>
+                    <p style="font-size: 8px;" class="lead mt-1 ms-3 me-3">{{ instructor.desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2"></script>
+<script>
+    new Sortable(document.getElementById('posts-grid'), {
+        animation: 150,
+        ghostClass: 'sortable-ghost',
+        dragClass: "sortable-drag",
+        onEnd: function (/**Event*/evt) {
+            var items = evt.to.children;
+            for (var i = 0; i < items.length; i++) {
+                // Update each hidden input's value to reflect the new order
+                var input = items[i].querySelector('input[type=hidden]');
+                if(input) {
+                    input.value = i + 1;
+                }
+            }
+        },
+    });
+</script>
+{% endblock %}

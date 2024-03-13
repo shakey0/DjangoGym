@@ -44,7 +44,7 @@
                         <p class="text-success fw-bold me-2 mb-0 scheduled-card-font">Spaces:</p>
                     </div>
                     <div class="ms-2">
-                        <p class="card-text mb-2 scheduled-card-font"><a class="link link-classes" href="{% url 'staff:staff_detail' scheduled.instructor.id %}">{{ scheduled.instructor.user.username }}</a></p>
+                        <p class="card-text mb-2 scheduled-card-font"><a class="link link-classes" href="{% url 'instructors:instructor_detail' scheduled.instructor.id %}">{{ scheduled.instructor.user.username }}</a></p>
                         <p class="card-text mb-2 scheduled-card-font">{{ scheduled.date|date:"j F" }}</p>
                         <p class="card-text mb-2 scheduled-card-font">{{ scheduled.start_time }} - {{ scheduled.end_time }}</p>
                         <p class="card-text mb-2 scheduled-card-font">{{ scheduled.room }}</p>

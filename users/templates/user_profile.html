@@ -15,7 +15,7 @@
             {% endif %}
             {% if v_user.is_staff %}
             <div class="ms-auto" id="admin-main-buttons-profile">
-                <a href="{% url 'staff:update_instructor' v_user.instructor.id %}" class="btn btn-primary" style="height: 40px;">Update Details</a>
+                <a href="{% url 'instructors:update_instructor' v_user.instructor.id %}" class="btn btn-primary" style="height: 40px;">Update Details</a>
             </div>
             {% endif %}
         </div>

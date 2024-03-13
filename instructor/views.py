@@ -7,19 +7,19 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
 
-class AllStaff(ListView):
+class AllInstructors(ListView):
     model = Instructor
     template_name = 'instructors.html'
-    context_object_name = 'team'
+    context_object_name = 'instructors'
 
 
-class StaffDetail(DetailView):
+class InstructorDetail(DetailView):
     model = Instructor
     template_name = 'instructor_profile.html'
     
     
 @staff_member_required
-def sort_staff(request):
+def sort_instructors(request):
     if request.method == 'POST':
         form_data = request.POST
         instructor_ids = [item.split('_')[1] for item in form_data if item.startswith('instructor')]
@@ -31,7 +31,7 @@ def sort_staff(request):
                 try:
                     new_order = str(int(form_data[item]) * 100)
                 except ValueError:
-                    return redirect('staff:staff')
+                    return redirect('instructors:instructors')
                 if instructor_id in instructors_dict:
                     instructor_instance = instructors_dict[instructor_id]
                     instructor_instance.order = new_order
@@ -39,12 +39,12 @@ def sort_staff(request):
         if instructors_to_update:
             with transaction.atomic():
                 Instructor.objects.bulk_update(instructors_to_update, ['order'])
-        return redirect('staff:staff')
+        return redirect('instructors:instructors')
     instructors = Instructor.objects.all()
     context = {
         'instructors': instructors,
     }
-    return render(request, 'sort_staff.html', context)
+    return render(request, 'sort_instructors.html', context)
 
 
 @staff_member_required
@@ -95,5 +95,5 @@ def delete_instructor(request, pk):
     instructor = get_object_or_404(Instructor, pk=pk)
     if request.method == 'POST':
         instructor.user.delete()
-        return redirect('staff:staff')
+        return redirect('instructors:instructors')
     return render(request, 'delete_instructor.html', {'instructor': instructor})

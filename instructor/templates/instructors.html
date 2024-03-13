@@ -6,30 +6,30 @@
         <div class="d-flex align-items-center ms-2 me-2 adj-430w" id="title-div">
             <h1 class="mt-4 mb-4">Our Team</h1>
             <div class="ms-auto" id="admin-main-buttons">
-                <a href="{% url 'staff:add_instructor' %}" class="btn btn-primary" style="height: 40px;">Add Staff</a>
-                <a href="{% url 'staff:sort_staff' %}" class="btn btn-dark ms-1" style="height: 40px;">Reorder</a>
+                <a href="{% url 'instructors:add_instructor' %}" class="btn btn-primary" style="height: 40px;">Add Staff</a>
+                <a href="{% url 'instructors:sort_instructors' %}" class="btn btn-dark ms-1" style="height: 40px;">Reorder</a>
             </div>
         </div>
     {% else %}
         <h1 class="mt-4 mb-4 ms-2 me-2">Our Team</h1>
     {% endif %}
     <div class="row">
-        {% for staff in team %}
+        {% for instructor in instructors %}
         <div class="col-md-6 mb-5">
             <div class="card img-fluid h-100 ms-2 me-2">
-                <img src="{{ staff.image.url }}" class="img-fluid crop-portrait" alt="Image">
-                <h2 class="card-title mt-2 ms-3 me-3 border-bottom-after">{{ staff.user.first_name }}<p class="text-muted fs-4">{{ staff.instr_type }}</p></h2>
+                <img src="{{ instructor.image.url }}" class="img-fluid crop-portrait" alt="Image">
+                <h2 class="card-title mt-2 ms-3 me-3 border-bottom-after">{{ instructor.user.first_name }}<p class="text-muted fs-4">{{ instructor.instr_type }}</p></h2>
                 {% if user.is_staff %}
                     <div class="mt-2 mb-2 ms-3 me-3">
-                        <a href="{% url 'staff:update_instructor' staff.id %}" class="btn btn-primary me-1" style="height: 40px;">Update</a>
-                        <a href="{% url "users:user_profile" staff.user.id %}" class="btn btn-info" style="height: 40px;">Details</a>
+                        <a href="{% url 'instructors:update_instructor' instructor.id %}" class="btn btn-primary me-1" style="height: 40px;">Update</a>
+                        <a href="{% url "users:user_profile" instructor.user.id %}" class="btn btn-info" style="height: 40px;">Details</a>
                     </div>
                 {% endif %}
                 <div class="d-flex ms-3 me-3">
                     <p class="fs-3 mb-1">See <a class="link link-classes-light" href="">Upcoming Classes</a></p>
                 </div>
-                <p class="lead mt-1 ms-3 me-3">{{ staff.desc }}</p>
-                <a href="{% url 'staff:staff_detail' staff.id %}" class="btn btn-info btn-lg mb-3 ms-3 me-3" style="height: 50px;">See More</a>
+                <p class="lead mt-1 ms-3 me-3">{{ instructor.desc }}</p>
+                <a href="{% url 'instructors:instructor_detail' instructor.id %}" class="btn btn-info btn-lg mb-3 ms-3 me-3" style="height: 50px;">See More</a>
             </div>
         </div>
         {% if forloop.counter|divisibleby:2 and not forloop.last %}

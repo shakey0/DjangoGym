@@ -11,7 +11,7 @@
         <div class="d-flex align-items-center adj-430w" id="title-div">
             <h1 class="mt-4 mb-4">Edit Staff</h1>
             <div class="ms-auto" id="admin-main-buttons">
-                <a href="{% url 'staff:delete_instructor' instructor.id %}" class="btn btn-danger" style="height: 40px;">Delete Staff</a>
+                <a href="{% url 'instructors:delete_instructor' instructor.id %}" class="btn btn-danger" style="height: 40px;">Delete Staff</a>
             </div>
         </div>
         {% endif %}

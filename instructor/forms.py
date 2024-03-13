@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Instructor
+from classes.models import Class
 import random, string
 
 
@@ -95,3 +96,20 @@ class UpdateInstructorForm(forms.Form):
         instructor.save()
         
         return user
+
+
+class AddInstructorForClassForm(forms.Form):
+    instructors = [(i.id, i.user.username) for i in Instructor.objects.all()]
+    selected_instr = forms.ChoiceField(choices=[('', 'Select')] + instructors, required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}), label='Instructor')
+
+    def clean_selected_instr(self):
+        data = self.cleaned_data['selected_instr']
+        if data == '':
+            raise forms.ValidationError("Please select a valid instructor.")
+        return data
+    
+    def save(self, class_obj):
+        instructor = Instructor.objects.get(pk=self.cleaned_data['selected_instr'])
+        class_obj.instructors.add(instructor)
+        class_obj.save()
+        return class_obj

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid mt-4 mb-5 d-flex flex-column align-items-center">
+    <form method="post" enctype="multipart/form-data" class="form-767px" >
+        <h1 class="mb-4">Add Instructor for {{ class.name }}</h1>
+        {% for field in form %}
+            <div class="fieldWrapper">
+                <div class="label mt-2">{{ field.label_tag }}</div>
+                {% if field.help_text %}
+                    <p class="help mb-1" style="font-size: 11px;">{{ field.help_text|safe }}</p>
+                {% endif %}
+                <div class="field">{{ field }}</div>
+                <div class="error-message" style="color: red;">{{ field.errors }}</div>
+            </div>
+        {% endfor %}
+        {% csrf_token %}
+        <button class="btn btn-primary btn-lg mt-3" type="submit">Add Instructor</button>
+    </form>
+</div>
+{% endblock %}

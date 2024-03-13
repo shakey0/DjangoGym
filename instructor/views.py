@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Instructor
+from classes.models import Class
 from django.views.generic import ListView, DetailView
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import RegisterForm, UpdateInstructorForm
+from .forms import RegisterForm, UpdateInstructorForm, AddInstructorForClassForm
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
@@ -11,6 +12,27 @@ class AllInstructors(ListView):
     model = Instructor
     template_name = 'instructors.html'
     context_object_name = 'instructors'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all'] = True
+        return context
+    
+    
+class InstructorsForClass(ListView):
+    model = Instructor
+    template_name = 'instructors.html'
+    context_object_name = 'instructors'
+    
+    def get_queryset(self):
+        class_id = self.kwargs.get('pk')
+        return Instructor.objects.filter(class_instructors__id=class_id)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all'] = False
+        context['class'] = get_object_or_404(Class, pk=self.kwargs.get('pk'))
+        return context
 
 
 class InstructorDetail(DetailView):
@@ -58,6 +80,17 @@ def add_instructor(request):
 
 
 @staff_member_required
+def add_instructor_for_class(request, pk):
+    class_obj = get_object_or_404(Class, pk=pk)
+    form = AddInstructorForClassForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save(class_obj)
+            return redirect('instructors:instructors_for_class', pk=class_obj.pk)
+    return render(request, 'add_instructor_for_class.html', {'form': form, 'class': class_obj})
+
+
+@staff_member_required
 def update_instructor(request, pk):
     instructor = get_object_or_404(Instructor, pk=pk)
     if request.method == 'POST':
@@ -97,3 +130,13 @@ def delete_instructor(request, pk):
         instructor.user.delete()
         return redirect('instructors:instructors')
     return render(request, 'delete_instructor.html', {'instructor': instructor})
+
+
+@staff_member_required
+def remove_instructor_from_class(request, pk, class_id):
+    instructor = get_object_or_404(Instructor, pk=pk)
+    class_obj = get_object_or_404(Class, pk=class_id)
+    if request.method == 'POST':
+        class_obj.instructors.remove(instructor)
+        return redirect('instructors:instructors_for_class', pk=class_obj.pk)
+    return render(request, 'remove_instructor_from_class.html', {'instructor': instructor, 'class': class_obj})

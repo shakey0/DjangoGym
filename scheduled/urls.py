@@ -8,6 +8,7 @@ urlpatterns = [
     path('book/', views.book_class, name='book_class'),
     path('cancel/', views.cancel_class, name='cancel_class'),
     path('my/', views.MySchedule.as_view(), name='my_schedule'),
+    path('class/<int:class_id>/', views.ClassSchedule.as_view(), name='class_schedule'),
     path('add/', views.AddScheduled.as_view(), name='add_scheduled'),
     path('update/<int:pk>/', views.UpdateScheduled.as_view(), name='update_scheduled'),
     path('delete/<int:pk>/', views.DeleteScheduled.as_view(), name='delete_scheduled'),

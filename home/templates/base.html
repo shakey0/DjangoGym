@@ -58,6 +58,13 @@
                 </div>
             </div>
         </nav>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} text-center padding-12">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
         {% block content %}
         {% endblock %}
         <footer class="bg-dark text-light py-4 mt-auto">

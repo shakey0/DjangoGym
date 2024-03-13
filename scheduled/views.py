@@ -1,9 +1,12 @@
 from django.shortcuts import redirect
 from .models import Scheduled
+from classes.models import Class
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .forms import AddScheduledForm
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
+from django.urls import reverse_lazy
 
 
 class FullSchedule(ListView):
@@ -15,7 +18,7 @@ class FullSchedule(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['full'] = True
+        context['schedule_type'] = 'full'
         return context
     
     
@@ -47,7 +50,23 @@ class MySchedule(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['full'] = False
+        context['schedule_type'] = 'my'
+        return context
+    
+    
+class ClassSchedule(ListView):
+    model = Scheduled
+    template_name = 'schedule.html'
+    context_object_name = 'given_schedule'
+    paginate_by = 20
+    
+    def get_queryset(self):
+        return Scheduled.objects.filter(class_id=self.kwargs['class_id']).order_by('date', 'start_time')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['schedule_type'] = 'class'
+        context['class_name'] = Class.objects.get(id=self.kwargs['class_id']).name
         return context
 
 
@@ -56,11 +75,15 @@ class AddScheduled(CreateView):
     model = Scheduled
     form_class = AddScheduledForm
     template_name = 'add_scheduled.html'
-    success_url = '/scheduled/'
-
+    
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, f'{form.instance.class_id.name} class added on {form.instance.date.strftime("%d %B")} at {form.instance.start_time.strftime("%H:%M")}.')
+        return response
+    
+    def get_success_url(self):
+        return reverse_lazy('scheduled:class_schedule', kwargs={'class_id': self.object.class_id.id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -73,7 +96,15 @@ class UpdateScheduled(UpdateView):
     model = Scheduled
     form_class = AddScheduledForm
     template_name = 'add_scheduled.html'
-    success_url = '/scheduled/'
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        response = super().form_valid(form)
+        messages.success(self.request, f'{form.instance.class_id.name} class on {form.instance.date.strftime("%d %B")} at {form.instance.start_time.strftime("%H:%M")} updated.')
+        return response
+    
+    def get_success_url(self):
+        return reverse_lazy('scheduled:class_schedule', kwargs={'class_id': self.object.class_id.id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -26,7 +26,7 @@
                     </div>
                 {% endif %}
                 <div class="d-flex ms-3 me-3 gap-3">
-                    <a class="link fs-4 link-classes" href="">Schedule</a>
+                    <a class="link fs-4 link-classes" href="{% url 'scheduled:class_schedule' class.id %}">Schedule</a>
                     <p class="fs-3 mb-0 fw-lighter" style="color: rgb(191, 191, 191); transform: translateY(-4px)">|</p>
                     <a class="link fs-4 link-classes" href="">Instructors</a>
                 </div>

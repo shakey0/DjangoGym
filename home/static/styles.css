@@ -199,3 +199,7 @@ body {
 .selected-hover:hover {
     transform: scale(1.05);
 }
+
+.padding-12 {
+    padding: 12px;
+}

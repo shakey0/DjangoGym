@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container-fluid max-width-custom">
     <div class="col-md-8 offset-md-2">
-        {% if user.is_staff %}
+        {% if user.is_staff and full %}
             <div class="d-flex align-items-center adj-430w schedule-max-width" id="title-div">
                 <h1 class="mt-4 mb-4">Our Schedule</h1>
                 <div class="ms-auto" id="admin-main-buttons">
@@ -11,14 +11,14 @@
                 </div>
             </div>
         {% else %}
-            <h1 class="mt-4 mb-4">Our Schedule</h1>
+            <h1 class="mt-4 mb-4">{% if full %}Our Schedule{% else %}Your Bookings{% endif %}</h1>
         {% endif %}
     </div>
-    {% for scheduled in full_schedule %}
+    {% for scheduled in given_schedule %}
     <div class="row mt-4 mb-4">
         <div class="col-md-8 offset-md-2">
             <div class="card">
-                {% if user.is_staff %}
+                {% if user.is_staff and full %}
                 <div class="card-header d-flex align-items-center scheduled-title-div">
                     <h5 class="card-title mb-0 fs-2">{{ scheduled.class_id.name }}</h5>
                     <div class="ms-auto scheduled-top-buttons">
@@ -30,19 +30,19 @@
                     <div class="ms-auto">
                 {% endif %}
                             {% if user in scheduled.users.all %}
-                            <form method="post" action="cancel/">
+                            <form method="post" action="/scheduled/cancel/">
                                 {% csrf_token %}
                                 <input type="hidden" name="scheduled_id" value="{{ scheduled.id }}">
                                 <button type="submit" class="btn btn-danger book-button ps-2 pe-2">Cancel</button>
                             </form>
                             {% elif scheduled.capacity >= scheduled.users.count %}
-                            <form method="post" action="book/">
+                            <form method="post" action="/scheduled/book/">
                                 {% csrf_token %}
                                 <input type="hidden" name="scheduled_id" value="{{ scheduled.id }}">
                                 <button type="submit" class="btn btn-success book-button">Book</button>
                             </form>
                             {% endif %}
-                        {% if user.is_staff %}
+                        {% if user.is_staff and full %}
                         </div>
                         {% endif %}
                     </div>
@@ -61,7 +61,7 @@
                     </div>
                     <div class="ms-2">
                         <p class="card-text mb-2 scheduled-card-font"><a class="link link-classes" href="{% url 'instructors:instructor_detail' scheduled.instructor.id %}">{{ scheduled.instructor.user.username }}</a></p>
-                        <p class="card-text mb-2 scheduled-card-font">{{ scheduled.date|date:"j F" }}</p>
+                        <p class="card-text mb-2 scheduled-card-font"><b>{{ scheduled.date|date:"j F" }}</b></p>
                         <p class="card-text mb-2 scheduled-card-font">{{ scheduled.start_time }} - {{ scheduled.end_time }}</p>
                         <p class="card-text mb-2 scheduled-card-font">{{ scheduled.room }}</p>
                         {% if scheduled.capacity >= scheduled.users.count %}

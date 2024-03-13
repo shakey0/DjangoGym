@@ -31,6 +31,10 @@
                         <li class="nav-item">
                             <a class="nav-link link link-color-custom" href="{% url 'classes:classes' %}">Classes</a>
                         </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link link link-color-custom" href="{% url 'scheduled:my_schedule' %}">Bookings</a>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link link link-color-custom" href="{% url 'scheduled:full_schedule' %}">Schedule</a>
                         </li>

@@ -8,10 +8,15 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 class FullSchedule(ListView):
     model = Scheduled
-    template_name = 'full_schedule.html'
-    context_object_name = 'full_schedule'
+    template_name = 'schedule.html'
+    context_object_name = 'given_schedule'
     ordering = ['date', 'start_time']
     paginate_by = 20
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['full'] = True
+        return context
     
     
 def book_class(request):
@@ -20,7 +25,7 @@ def book_class(request):
         scheduled = Scheduled.objects.get(id=request.POST['scheduled_id'])
         scheduled.users.add(user)
         scheduled.save()
-        return redirect('/scheduled/')
+        return redirect('scheduled:my_schedule')
     
 
 def cancel_class(request):
@@ -29,7 +34,21 @@ def cancel_class(request):
         scheduled = Scheduled.objects.get(id=request.POST['scheduled_id'])
         scheduled.users.remove(user)
         scheduled.save()
-        return redirect('/scheduled/')
+        return redirect('scheduled:my_schedule')
+        
+    
+class MySchedule(ListView):
+    model = Scheduled
+    template_name = 'schedule.html'
+    context_object_name = 'given_schedule'
+
+    def get_queryset(self):
+        return Scheduled.objects.filter(users=self.request.user).order_by('date', 'start_time')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['full'] = False
+        return context
 
 
 @method_decorator(staff_member_required, name='dispatch')

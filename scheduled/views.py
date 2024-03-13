@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import Scheduled
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from .forms import AddScheduledForm
+from django.utils.decorators import method_decorator
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 class FullSchedule(ListView):
@@ -9,3 +12,20 @@ class FullSchedule(ListView):
     context_object_name = 'full_schedule'
     ordering = ['start_time']
     paginate_by = 20
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class AddScheduled(CreateView):
+    model = Scheduled
+    form_class = AddScheduledForm
+    template_name = 'add_scheduled.html'
+    success_url = '/scheduled/'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_add'] = True
+        return context

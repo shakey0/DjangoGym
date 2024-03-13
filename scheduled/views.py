@@ -29,3 +29,16 @@ class AddScheduled(CreateView):
         context = super().get_context_data(**kwargs)
         context['is_add'] = True
         return context
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class UpdateScheduled(UpdateView):
+    model = Scheduled
+    form_class = AddScheduledForm
+    template_name = 'add_scheduled.html'
+    success_url = '/scheduled/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_add'] = False
+        return context

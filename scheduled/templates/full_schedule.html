@@ -22,7 +22,7 @@
                 <div class="card-header d-flex align-items-center scheduled-title-div">
                     <h5 class="card-title mb-0 fs-2">{{ scheduled.class_id.name }}</h5>
                     <div class="ms-auto scheduled-top-buttons">
-                        <a href="" class="btn btn-primary ms-auto book-button me-1">Edit</a>
+                        <a href="{% url 'scheduled:update_scheduled' scheduled.id %}" class="btn btn-primary ms-auto book-button me-1">Edit</a>
                         <a href="" class="btn btn-success ms-auto book-button">Book</a>
                     </div>
                 </div>

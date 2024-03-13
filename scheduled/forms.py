@@ -16,6 +16,13 @@ class AddScheduledForm(forms.ModelForm):
     room = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'staff-input-width'}))
     capacity = forms.IntegerField(required=True, widget=forms.NumberInput(attrs={'class': 'staff-input-width'}), min_value=1, max_value=25, initial=10)
 
+    def __init__(self, *args, **kwargs):
+        super(AddScheduledForm, self).__init__(*args, **kwargs)
+        instance = kwargs.get('instance')
+        if instance:
+            self.fields['selected_class'].initial = instance.class_id.id
+            self.fields['selected_instructor'].initial = instance.instructor.id
+
     class Meta:
         model = Scheduled
         fields = ['selected_class', 'selected_instructor', 'date', 'start_time', 'end_time', 'room', 'capacity']
@@ -45,17 +52,19 @@ class AddScheduledForm(forms.ModelForm):
             raise forms.ValidationError("The end time must be after the start time.")
         return end_time
     
-    def save(self):
-        scheduled_data = {
-            'user': self.instance.user,
-            'class_id': Class.objects.get(id=self.cleaned_data['selected_class']),
-            'instructor': Instructor.objects.get(id=self.cleaned_data['selected_instructor']),
-            'date': self.cleaned_data['date'],
-            'start_time': self.cleaned_data['start_time'],
-            'end_time': self.cleaned_data['end_time'],
-            'room': self.cleaned_data['room'],
-            'capacity': self.cleaned_data['capacity']
-        }
-        scheduled = Scheduled(**scheduled_data)
-        scheduled.save()
-        return scheduled
+    def save(self, commit=True):
+        if not self.instance.pk:
+            self.instance = Scheduled()
+        
+        self.instance.class_id = Class.objects.get(id=self.cleaned_data['selected_class'])
+        self.instance.instructor = Instructor.objects.get(id=self.cleaned_data['selected_instructor'])
+        self.instance.date = self.cleaned_data['date']
+        self.instance.start_time = self.cleaned_data['start_time']
+        self.instance.end_time = self.cleaned_data['end_time']
+        self.instance.room = self.cleaned_data['room']
+        self.instance.capacity = self.cleaned_data['capacity']
+        
+        if commit:
+            self.instance.save()
+        
+        return self.instance

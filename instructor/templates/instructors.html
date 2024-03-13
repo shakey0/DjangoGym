@@ -21,7 +21,7 @@
                 <h2 class="card-title mt-2 ms-3 me-3 border-bottom-after">{{ staff.user.first_name }}<p class="text-muted fs-4">{{ staff.instr_type }}</p></h2>
                 {% if user.is_staff %}
                     <div class="mt-2 mb-2 ms-3 me-3">
-                        <a href="" class="btn btn-primary me-1" style="height: 40px;">Update</a>
+                        <a href="{% url 'staff:update_instructor' staff.id %}" class="btn btn-primary me-1" style="height: 40px;">Update</a>
                         <a href="{% url "users:user_profile" staff.user.id %}" class="btn btn-info" style="height: 40px;">Details</a>
                     </div>
                 {% endif %}

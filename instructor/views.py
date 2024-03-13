@@ -3,6 +3,7 @@ from .models import Instructor
 from django.views.generic import ListView, DetailView
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import RegisterForm, UpdateInstructorForm
+from django.core.exceptions import PermissionDenied
 
 
 class AllStaff(ListView):
@@ -49,3 +50,20 @@ def update_instructor(request, pk):
         }
         form = UpdateInstructorForm(initial=initial_data)
     return render(request, 'add_instructor.html', {'form': form, 'is_add': False, 'instructor': instructor})
+
+
+def superuser_required(function):
+    def wrap(request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return function(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+    return wrap
+
+@superuser_required
+def delete_instructor(request, pk):
+    instructor = get_object_or_404(Instructor, pk=pk)
+    if request.method == 'POST':
+        instructor.user.delete()
+        return redirect('staff:staff')
+    return render(request, 'delete_instructor.html', {'instructor': instructor})

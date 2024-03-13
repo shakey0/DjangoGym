@@ -1,7 +1,7 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from .models import Instructor
-from classes.models import Class
 import random, string
 
 
@@ -17,6 +17,12 @@ class RegisterForm(forms.Form):
     desc = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'staff-input-width'}), label='Description')
     qualifications_input = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'staff-input-width'}), label='Qualifications', help_text='Enter qualifications and separate each of them with a comma (,)')
     activities_input = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'staff-input-width'}), label='Activities', help_text='Enter activities and separate each of them with a comma (,)')
+    
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("A user with that username already exists.")
+        return username
     
     def clean_qualifications_input(self):
         input_data = self.cleaned_data['qualifications_input']

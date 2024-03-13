@@ -14,6 +14,12 @@ class RegisterForm(forms.Form):
     DOB = forms.DateField(required=True, widget=forms.DateInput(attrs={'class': ' staff-input-width', 'type': 'date'}), label='Date of Birth')
     membership = forms.ChoiceField(choices=[('', 'Select'), ('Basic', 'Basic'), ('Standard', 'Standard'), ('Premium', 'Premium'), ('VIP', 'VIP')], required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}))
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("A user with that username already exists.")
+        return username
+
     def clean_membership(self):
         data = self.cleaned_data['membership']
         if data == '':

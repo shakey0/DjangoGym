@@ -42,3 +42,10 @@ class UpdateScheduled(UpdateView):
         context = super().get_context_data(**kwargs)
         context['is_add'] = False
         return context
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class DeleteScheduled(DeleteView):
+    model = Scheduled
+    template_name = 'delete_scheduled.html'
+    success_url = '/scheduled/'

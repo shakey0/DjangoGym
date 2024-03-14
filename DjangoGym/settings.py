@@ -14,6 +14,8 @@ from pathlib import Path
 import dj_database_url
 import os
 
+running_in = os.environ.get('RUNNING_IN', 'development')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,9 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ru437#g^f7u59igw31uh#57dwad@vumraj#r$nrh02z-3a45%d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if running_in == 'production':
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'DjangoGym.urls'
@@ -81,7 +87,6 @@ WSGI_APPLICATION = 'DjangoGym.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-running_in = os.environ.get('RUNNING_IN', 'development')
 if running_in == 'production':
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
@@ -131,7 +136,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 LOGIN_URL = '/login'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'pictures')
 MEDIA_URL = '/pictures/'

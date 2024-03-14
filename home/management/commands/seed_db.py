@@ -69,7 +69,7 @@ class Command(BaseCommand):
                 instr_type='Group Exercise Coach',
                 desc="Introducing Andrew, the charismatic Group Exercise Coordinator, who brings a vibrant energy to every class he leads. From high-intensity interval training to wacky spin classes, Andrew's diverse expertise allows him to cater to a wide range of interests and fitness levels. His ability to create a supportive and fun community atmosphere makes every session not just a workout, but an experience that keeps members coming back for more.",
                 qualifications=["Gym Instructor Level III", "Spin Instruction Certificate", "Level II Gym Health & Safety"],
-                activites=["HIIT Classes", "Spin Classes", "Body Pump Classes", "Swimming"],
+                activities=["HIIT Classes", "Spin Classes", "Body Pump Classes", "Swimming"],
                 order=200,
                 user_id=1
             )

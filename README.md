@@ -65,3 +65,33 @@ Have a quick look at the pages on the website. These screenshots have been taken
 <p align="center">
     <img alt="CachingProcess" src="README_images/private_user_profile.png" width="100%"/>
 </p>
+
+## Installation & Setup
+
+Run the following command to clone the repo:
+```bash
+git clone https://github.com/shakey0/DjangoGym
+cd DjangoGym
+```
+
+Create your virtual environment:
+```bash
+pipenv install
+pipenv shell
+```
+
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+Run the following command to create the dev database:
+(If you haven't, install and setup PostgreSQL on your machine.)
+```bash
+createdb DjangoGymData
+```
+
+Start the server:
+```bash
+python manage.py runserver
+```

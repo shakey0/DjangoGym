@@ -114,6 +114,6 @@ Start the server:
 python manage.py runserver
 ```
 
-Go to http://localhost:8000/admin/ and log in which the superuser you created.
+Go to http://localhost:8000/admin/ and log in with the superuser you created.
 
 Go to http://localhost:8000/ and have fun!

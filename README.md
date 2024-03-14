@@ -6,6 +6,12 @@ Welcome to DjangoGym! After learning the fundamentals of Django - Views, URL Pat
     <img alt="CachingProcess" src="README_images/DjangoGymSchema.png" width="100%"/>
 </p>
 
+# Key Technologies
+
+- **Backend:** Python, Django, PostgreSQL
+- **Frontend:** JavaScript, SortableJS, Bootstrap, CSS, HTML
+- **Deployment:** Docker
+
 # Peek at the Pages
 
 Have a quick look at the pages on the website. These screenshots have been taken while logged in as a staff member, meaning all the buttons to add, edit and delete content are present.

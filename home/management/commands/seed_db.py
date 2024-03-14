@@ -98,14 +98,14 @@ class Command(BaseCommand):
                 link='classes'
             )
             Image.objects.create(
-                image='home/home_4.jpg',
+                image='home/home_4.jpeg',
                 desc='Learn from the best: our certified instructors bring passion, expertise, and personalised guidance to every class.',
                 order=400,
                 link_text='team',
                 link='instructors'
             )
             Image.objects.create(
-                image='home/home_5.jpg',
+                image='home/home_5.webp',
                 desc='Flexible schedules that fit your life - early bird or night owl, or constantly busy, find your perfect workout time.',
                 order=500,
                 link_text='schedule',

@@ -17,7 +17,7 @@ class Command(BaseCommand):
         superuser_username = 'Admin'
         superuser = User.objects.filter(username=superuser_username).first()
         if superuser:
-            superuser.first_name = 'Alex'
+            superuser.first_name = 'Andrew'
             superuser.last_name = 'Smith'
             superuser.save()
             self.stdout.write(f"Updated superuser {superuser_username}")
@@ -58,7 +58,8 @@ class Command(BaseCommand):
                 desc="Meet Sophie, the gym's expert Nutrition Consultant, whose holistic approach to diet and wellness sets her apart. With a background in nutritional science and a talent for crafting meal plans that are both delicious and nutritionally balanced, Sophie guides you through the maze of dietary choices. Her personalised consultations aim to harmonise your diet with your fitness goals, ensuring that your body receives the optimal fuel it needs to thrive.",
                 qualifications=["Master's Degree in Sports Nutrition", "Level III Certificate in Workout Nutrition", "Certified Yoga Instructor"],
                 activities=["Nutrition Consultations", "Yoga Classes", "Body Mind & Spirit Personal Training", "Pilates"],
-                order=100
+                order=100,
+                user_id=2
             )
             Instructor.objects.create(
                 phone='07111222334',
@@ -69,7 +70,8 @@ class Command(BaseCommand):
                 desc="Introducing Andrew, the charismatic Group Exercise Coordinator, who brings a vibrant energy to every class he leads. From high-intensity interval training to wacky spin classes, Andrew's diverse expertise allows him to cater to a wide range of interests and fitness levels. His ability to create a supportive and fun community atmosphere makes every session not just a workout, but an experience that keeps members coming back for more.",
                 qualifications=["Gym Instructor Level III", "Spin Instruction Certificate", "Level II Gym Health & Safety"],
                 activites=["HIIT Classes", "Spin Classes", "Body Pump Classes", "Swimming"],
-                order=200
+                order=200,
+                user_id=1
             )
             self.stdout.write("Seeded Instructors.")
         else:

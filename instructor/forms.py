@@ -105,8 +105,12 @@ class UpdateInstructorForm(forms.Form):
 
 
 class AddInstructorForClassForm(forms.Form):
-    instructors = [(i.id, i.user.username) for i in Instructor.objects.all()]
-    selected_instr = forms.ChoiceField(choices=[('', 'Select')] + instructors, required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}), label='Instructor')
+    selected_instr = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}), label='Instructor')
+
+    def __init__(self, *args, **kwargs):
+        super(AddInstructorForClassForm, self).__init__(*args, **kwargs)
+        instructor_choices = [(i.id, i.user.username) for i in Instructor.objects.all()]
+        self.fields['selected_instr'].choices = [('', 'Select')] + instructor_choices
 
     def clean_selected_instr(self):
         data = self.cleaned_data['selected_instr']

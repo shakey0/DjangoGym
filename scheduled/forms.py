@@ -6,10 +6,8 @@ import datetime
 
 
 class AddScheduledForm(forms.ModelForm):
-    class_choices = [(c.id, c.name) for c in Class.objects.all()]
-    selected_class = forms.ChoiceField(choices=[('', 'Select')] + class_choices, required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}), label='Class')
-    instructor_choices = [(i.id, i.user.username) for i in Instructor.objects.all()]
-    selected_instructor = forms.ChoiceField(choices=[('', 'Select')] + instructor_choices, required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}), label='Instructor')
+    selected_class = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}), label='Class')
+    selected_instructor = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'staff-input-width'}), label='Instructor')
     date = forms.DateField(required=True, widget=forms.DateInput(attrs={'class': 'staff-input-width', 'type': 'date'}))
     start_time = forms.TimeField(required=True, widget=forms.TimeInput(attrs={'class': 'staff-input-width', 'type': 'time'}))
     end_time = forms.TimeField(required=True, widget=forms.TimeInput(attrs={'class': 'staff-input-width', 'type': 'time'}))
@@ -18,6 +16,13 @@ class AddScheduledForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AddScheduledForm, self).__init__(*args, **kwargs)
+        
+        class_choices = [(c.id, c.name) for c in Class.objects.all()]
+        self.fields['selected_class'].choices = [('', 'Select')] + class_choices
+        
+        instructor_choices = [(i.id, i.user.username) for i in Instructor.objects.all()]
+        self.fields['selected_instructor'].choices = [('', 'Select')] + instructor_choices
+        
         instance = kwargs.get('instance')
         if instance:
             self.fields['selected_class'].initial = instance.class_id.id

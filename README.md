@@ -93,9 +93,27 @@ Run the following command to create the dev database:
 (If you haven't, install and setup PostgreSQL on your machine.)
 ```bash
 createdb DjangoGymData
+python manage.py migrate
+```
+
+Create a superuser with the username Admin (remember the capital A):
+```bash
+python manage.py createsuperuser
+# Username: Admin
+# Email address: admin@email.com
+# Password: <YOUR_CHOICE>
+```
+
+Seed the dev database:
+```bash
+python manage.py seed_db
 ```
 
 Start the server:
 ```bash
 python manage.py runserver
 ```
+
+Go to http://localhost:8000/admin/ and log in which the superuser you created.
+
+Go to http://localhost:8000/ and have fun!

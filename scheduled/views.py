@@ -4,6 +4,7 @@ from classes.models import Class
 from instructor.models import Instructor
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .forms import AddScheduledForm
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
@@ -22,7 +23,8 @@ class FullSchedule(ListView):
         context['schedule_type'] = 'full'
         return context
     
-    
+
+@login_required
 def book_class(request):
     if request.method == 'POST':
         user = request.user
@@ -32,6 +34,7 @@ def book_class(request):
         return redirect('scheduled:my_schedule')
     
 
+@login_required
 def cancel_class(request):
     if request.method == 'POST':
         user = request.user
@@ -40,7 +43,8 @@ def cancel_class(request):
         scheduled.save()
         return redirect('scheduled:my_schedule')
         
-    
+
+@method_decorator(login_required, name='dispatch')
 class MySchedule(ListView):
     model = Scheduled
     template_name = 'schedule.html'

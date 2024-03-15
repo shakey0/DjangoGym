@@ -89,7 +89,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Run the following command to create the dev database:
+Run the following commands to create the dev database:
 (If you haven't, install and setup PostgreSQL on your machine.)
 ```bash
 createdb DjangoGymData

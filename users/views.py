@@ -1,10 +1,33 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
-from instructor.models import Instructor
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import UpdatePhotoForm
+from .forms import LoginForm, UpdatePhotoForm
+from django.contrib import messages
+
+
+def login(request):
+    form = LoginForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                messages.success(request, f'Login success! Hi, {username}!')
+                return redirect('home:index')
+            else:
+                messages.error(request, 'Invalid username or password')
+    return render(request, 'login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'You have been logged out.')
+    return redirect('home:index')
 
 
 class UserProfile(LoginRequiredMixin, UserPassesTestMixin, DetailView):

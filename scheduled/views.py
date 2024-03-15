@@ -18,6 +18,9 @@ class FullSchedule(ListView):
     ordering = ['date', 'start_time']
     paginate_by = 20
     
+    def get_queryset(self):
+        return Scheduled.objects.prefetch_related('users').order_by('date', 'start_time')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['schedule_type'] = 'full'
@@ -51,7 +54,7 @@ class MySchedule(ListView):
     context_object_name = 'given_schedule'
 
     def get_queryset(self):
-        return Scheduled.objects.filter(users=self.request.user).order_by('date', 'start_time')
+        return Scheduled.objects.filter(users=self.request.user).prefetch_related('users').order_by('date', 'start_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -66,7 +69,7 @@ class ClassSchedule(ListView):
     paginate_by = 20
     
     def get_queryset(self):
-        return Scheduled.objects.filter(class_id=self.kwargs['class_id']).order_by('date', 'start_time')
+        return Scheduled.objects.filter(class_id=self.kwargs['class_id']).prefetch_related('users').order_by('date', 'start_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,7 +85,7 @@ class InstructorSchedule(ListView):
     paginate_by = 20
     
     def get_queryset(self):
-        return Scheduled.objects.filter(instructor_id=self.kwargs['instructor_id']).order_by('date', 'start_time')
+        return Scheduled.objects.filter(instructor_id=self.kwargs['instructor_id']).prefetch_related('users').order_by('date', 'start_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

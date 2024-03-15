@@ -14,7 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write("Seeding data...")
 
-        superuser_username = 'Admin'
+        superuser_username = 'Andrew'
         superuser = User.objects.filter(username=superuser_username).first()
         if superuser:
             superuser.first_name = 'Andrew'

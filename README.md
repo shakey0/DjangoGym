@@ -96,11 +96,11 @@ createdb DjangoGymData
 python manage.py migrate
 ```
 
-Create a superuser with the username Admin (remember the capital A):
+Create a superuser with the username Andrew (remember the capital A):
 ```bash
 python manage.py createsuperuser
-# Username: Admin
-# Email address: admin@email.com
+# Username: Andrew
+# Email address: andrew@email.com
 # Password: <YOUR_CHOICE>
 ```
 
